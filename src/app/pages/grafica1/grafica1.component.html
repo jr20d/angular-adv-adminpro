@@ -1,1 +1,17 @@
-<p>grafica1 works!</p>
+<div class="row">
+    <div class="col-6">
+        <app-dona [title]="'Ventas'"></app-dona>
+    </div>
+    <div class="col-6">
+        <app-dona [title]="'Compras'" [data]="[[100, 50, 100]]" [labels]="['Tacos', 'Pan', 'Refresco']"></app-dona>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <app-dona [title]="'Cambios'" [data]="[[20, 50, 100]]" [colors]="[{backgroundColor: ['#ADD8E6', '#008000', '#A52A2A']}]"></app-dona>
+    </div>
+    <div class="col-6">
+        <app-dona [title]="'Compras 2'" [data]="[[100, 20, 50]]" [colors]="[{backgroundColor: ['#0000A0', '#808080', '#FFA500']}]"></app-dona>
+    </div>
+</div>
