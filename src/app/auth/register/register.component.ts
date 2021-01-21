@@ -53,7 +53,8 @@ export class RegisterComponent implements OnInit {
       Swal.fire({
         title: 'Error',
         text: err.error.msg,
-        icon: 'error'
+        icon: 'error',
+        html: '<p>Already have an account? <a href="/login" class="text-info m-l-5"><b>Sign In</b></a></p>'
       });
     });
   }

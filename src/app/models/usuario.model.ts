@@ -1,3 +1,7 @@
+import { environment } from "src/environments/environment";
+
+const base_url: string = environment.base_url;
+
 export class Usuario {
 
     constructor(
@@ -8,6 +12,16 @@ export class Usuario {
         private _imagen?: string,
         private _uid?: string
     ) { }
+
+    public imagenUrl(){
+        if (this.imagen.includes('.google')){
+            return this._imagen;
+        }
+        else{
+            const urlImagen = `${base_url}/uploads/usuarios/`;
+            return (this._imagen) ? urlImagen.concat(this._imagen) : urlImagen.concat('no-img.jpg');
+        }
+    }
 
     public get role(): string {
         return this._role || '';
@@ -45,7 +59,7 @@ export class Usuario {
         return this._imagen || '';
     }
 
-    public set img(_imagen: string){
+    public set imagen(_imagen: string){
         this._imagen = _imagen;
     }
 
