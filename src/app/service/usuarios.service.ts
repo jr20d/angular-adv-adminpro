@@ -8,6 +8,8 @@ import { RegisterForm } from '../interfaces/register-forms';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
+import { CargarUsuarios } from '../interfaces/cargar-usuarios';
+import { RolUsuario } from '../interfaces/rol-usuario';
 
 declare const gapi: any;
 const base_url: string = environment.base_url;
@@ -31,6 +33,14 @@ export class UsuariosService {
 
   get token(): string{
     return localStorage.getItem('token') || '';
+  }
+
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
   }
 
   googleInit(){
@@ -60,11 +70,7 @@ export class UsuariosService {
   }
 
   validarToken(): Observable<boolean>{
-    return this.http.get(`${base_url}/login/renew`, {
-      headers: {
-        'x-token': this.token
-      }
-    }).pipe(
+    return this.http.get(`${base_url}/login/renew`, this.headers).pipe(
       map((resp: any) =>{
         const {nombre, email, rol, google, imagen, uid} = resp.usuario;
         this._usuario = new Usuario(nombre, email, rol, google, imagen, uid);
@@ -85,13 +91,9 @@ export class UsuariosService {
   }
 
   actualizarPerfil(data: {email: string, nombre: string, rol: string}){
-    data.rol = this.usuario?.role || '';
+    data.rol = this.usuario?.rol || '';
 
-    return this.http.put(`${base_url}/usuarios/${this.usuario?.uid}`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    return this.http.put(`${base_url}/usuarios/${this.usuario?.uid}`, data, this.headers);
   }
 
   login(formData: LoginForm){
@@ -116,5 +118,30 @@ export class UsuariosService {
         localStorage.setItem('token', resp.token);
       })
     );
+  }
+
+  cargarUsuario(desde: number = 0){
+    const url = `${base_url}/usuarios?desde=${desde}`;
+    return this.http.get<CargarUsuarios>(url, this.headers)
+    .pipe(
+      map(resp =>{
+        const usuarios = resp.usuarios.map(user => new Usuario(user.nombre, user.email,
+          user.rol, user.google, user.imagen, user.uid));
+        return {
+          total: resp.total,
+          usuarios
+        };
+      })
+    );
+  }
+
+  eliminarUsuario(usuario: Usuario){
+    const url = `${base_url}/usuarios/${usuario.uid}`;
+    return this.http.delete(url, this.headers);
+  }
+
+  cambiarUsuario(usuario: RolUsuario){
+    console.log(usuario);
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
   }
 }

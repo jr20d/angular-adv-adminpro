@@ -36,6 +36,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    if (this.loginForm.invalid){
+      Swal.fire({
+        title: 'Error',
+        text: 'Asegurese de ingresar usuario y contraseña',
+        icon: 'error'
+      });
+      return;
+    }
+
     this.usuarioService.login(this.loginForm.value)
       .subscribe(resp => {
         console.log('Usuario logeado');

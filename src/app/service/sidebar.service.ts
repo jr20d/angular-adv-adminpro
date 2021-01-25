@@ -16,6 +16,15 @@ export class SidebarService {
         {titulo: 'Obsevables', url: '/dashboard/observables'}
       ]
     },
+    {
+      titulo: 'Mantenimientos',
+      icono: 'mdi mdi-folder-lock-open',
+      submenu: [
+        {titulo: 'Usuarios', url: '/mantenimiento/usuarios'},
+        {titulo: 'Hospitales', url: '/mantenimiento/hospitales'},
+        {titulo: 'Médicos', url: '/mantenimiento/medicos'}
+      ]
+    }
   ];
 
   constructor() { }

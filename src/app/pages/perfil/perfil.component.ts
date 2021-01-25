@@ -52,15 +52,16 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  cambiarImagen(file: File){
-    this.imagenSubir = file;
+  cambiarImagen(file: any){
+
+    this.imagenSubir = file.files[0];
 
     if (!this.imagenSubir){
       this.imgTemp = this.usuario.imagenUrl() || '';
     }
     else{
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file.files[0]);
       reader.onloadend = () =>{
         this.imgTemp = reader.result?.toString() || '';
       }

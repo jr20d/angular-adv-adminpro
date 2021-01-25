@@ -7,14 +7,14 @@ export class Usuario {
     constructor(
         private _nombre: string,
         private _email: string,
-        private _role?: string,
+        private _rol?: string,
         private _google?: boolean,
         private _imagen?: string,
         private _uid?: string
     ) { }
 
     public imagenUrl(){
-        if (this.imagen.includes('.google')){
+        if (this.imagen.includes('.googleusercontent.com')){
             return this._imagen;
         }
         else{
@@ -23,12 +23,12 @@ export class Usuario {
         }
     }
 
-    public get role(): string {
-        return this._role || '';
+    public get rol(): string {
+        return this._rol || '';
     }
 
-    public set role(_role: string) {
-        this._role = _role;
+    public set rol(_rol: string) {
+        this._rol = _rol;
     }
 
     public get google(): boolean{

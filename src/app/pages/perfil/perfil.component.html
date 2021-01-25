@@ -36,7 +36,7 @@
                 <div class="text-center">
                     <img [src]="imgTemp" class="img-avatar">
                 </div>
-                <input type="file" (change)="cambiarImagen($event.target.files[0])">
+                <input type="file" (change)="cambiarImagen($event.target)">
                 <br><br>
                 <button type="button" class="btn btn-success waves-effect btn-block waves-light m-r-10" [disabled]="!imagenSubir" (click)="subirImagen()">
                     <i class="fa fa-save"></i>
