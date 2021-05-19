@@ -42,7 +42,7 @@ export class ModalImagenService {
       this._imagen = img;
     }
     else{
-      this._imagen = `${base_url}/uploads/usuarios/${img || 'no-img'}`;
+      this._imagen = `${base_url}/uploads/${tipo}/${img || 'no-img'}`;
     }
   }
 

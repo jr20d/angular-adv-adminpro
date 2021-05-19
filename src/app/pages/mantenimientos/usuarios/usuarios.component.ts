@@ -89,7 +89,7 @@ export class UsuariosComponent implements OnInit {
     }
 
     this.busquedaService.bucar('usuarios', termino)
-    .subscribe(resp => {
+    .subscribe((resp: any) => {
       this.usuarios = resp;
     });
   }
