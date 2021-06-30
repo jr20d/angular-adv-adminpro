@@ -17,8 +17,8 @@ export class RegisterComponent implements OnInit {
   public formSubmited: boolean = false;
 
   public registerForm = this.fb.group({
-    nombre: ['Josué', [Validators.required, Validators.minLength(3)]],
-    email: ['test100@gmail.com', [Validators.required, Validators.email]],
+    nombre: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     password2: ['', Validators.required],
     terminos: [false, Validators.required]

@@ -13,6 +13,8 @@ import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component'
 import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
 import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
     {
@@ -35,10 +37,20 @@ const routes: Routes = [
         component: PagesComponent,
         canActivate: [AuthGuard],
         children: [
-            { path: 'usuarios', component: UsuariosComponent, data: {titulo: 'Usuarios'} },
+            { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: {titulo: 'Usuarios'} },
             { path: 'hospitales', component: HospitalesComponent, data: {titulo: 'Hospitales'} },
             { path: 'medicos', component: MedicosComponent, data: {titulo: 'Medicos'} },
             { path: 'medico/:id', component: MedicoComponent, data: {titulo: 'Medicos'} }
+        ]
+    },
+    //Busquedas globales
+    {
+        path: 'busqueda',
+        component: PagesComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {path: ':busqueda', component: BusquedaComponent, data: {titulo: 'Busquedas'}},
+            {path: '', redirectTo: '/dashboard', pathMatch: 'full'}
         ]
     }
 

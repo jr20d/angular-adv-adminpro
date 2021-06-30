@@ -12,11 +12,13 @@ import { UsuariosService } from 'src/app/service/usuarios.service';
 export class HeaderComponent implements OnInit {
   private _usuario: Usuario | undefined;
 
-  constructor(private usuarioService: UsuariosService) {
+  constructor(private usuarioService: UsuariosService,
+    private router: Router) {
     this._usuario = usuarioService.usuario;
   }
 
-  ngOnInit(): void {
+  ngOnInit(){
+
   }
 
   logout(): void{
@@ -25,5 +27,12 @@ export class HeaderComponent implements OnInit {
 
   get usuario(): Usuario{
     return this._usuario || new Usuario('', '');
+  }
+
+  buscar(busqueda: string){
+    if (busqueda.trim().length === 0){
+      return;
+    }
+    this.router.navigateByUrl(`/busqueda/${busqueda}`);
   }
 }

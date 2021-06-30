@@ -55,12 +55,18 @@ export class UsuariosService {
     })
   }
 
+  guardarLocalStorage(token: string, menu: any){
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu', JSON.stringify(menu));
+  }
+
   get usuario(): Usuario | undefined{
     return this._usuario;
   }
 
   logout(): void{
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
 
     this._auth2.signOut().then(() =>{
       this.ngZone.run(() =>{
@@ -74,7 +80,7 @@ export class UsuariosService {
       map((resp: any) =>{
         const {nombre, email, rol, google, imagen, uid} = resp.usuario;
         this._usuario = new Usuario(nombre, email, rol, google, imagen, uid);
-        localStorage.setItem('token', resp.token);
+        this.guardarLocalStorage(resp.token, resp.menu);
         return true;
       }),
       catchError(error => of(false))
@@ -85,7 +91,7 @@ export class UsuariosService {
     return this.http.post(`${base_url}/usuarios`, formData)
     .pipe(
       tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
+        this.guardarLocalStorage(resp.token, resp.menu);
       })
     );
   }
@@ -100,7 +106,7 @@ export class UsuariosService {
     return this.http.post(`${base_url}/login`, formData)
     .pipe(
       tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
+        this.guardarLocalStorage(resp.token, resp.menu);
         if (formData.remember){
           localStorage.setItem('email', formData.email);
         }
@@ -115,7 +121,7 @@ export class UsuariosService {
     return this.http.post(`${base_url}/login/google`, {token})
     .pipe(
       tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
+        this.guardarLocalStorage(resp.token, resp.menu);
       })
     );
   }
@@ -141,7 +147,6 @@ export class UsuariosService {
   }
 
   cambiarUsuario(usuario: RolUsuario){
-    console.log(usuario);
     return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
   }
 }

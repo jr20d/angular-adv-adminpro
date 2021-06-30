@@ -1,10 +1,24 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidebarService {
-  private _menu: any[] = [
+
+  private _menu = [];
+
+  cargarMenu(){
+    let menuItem: string;
+    menuItem = localStorage.getItem('menu')?.toString() || '';
+    this._menu = JSON.parse(menuItem) || [];
+
+    if (this._menu.length === 0){
+      this.router.navigateByUrl("/login");
+    }
+  }
+
+  /*private _menu: any[] = [
     {
       titulo: 'Principal',
       icono: 'mdi mdi-gauge',
@@ -25,9 +39,9 @@ export class SidebarService {
         {titulo: 'Médicos', url: '/mantenimiento/medicos'}
       ]
     }
-  ];
+  ];*/
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   get menu(): any[]{
     return this._menu;
